@@ -12,7 +12,7 @@ redis-server -v
 ```
 
 # REDIS LIST
-#### Push value into the list
+#### 1.Push value into the list
 ```
 127.0.0.1:6379>	LPUSH num 1234
 (integer)4
@@ -22,7 +22,7 @@ redis-server -v
 3)"2"
 4)"1"
 ```
-#### PUSH new value on the top
+#### 2.PUSH new value on the top
 ```
 127.0.0.1:6379>LPUSH num 5
 (integer)5	
@@ -42,7 +42,7 @@ redis-server -v
 3)"2"
 4)"1"
 ```
-#### PUSH to the bottom using RPUSH
+#### 3.PUSH to the bottom using RPUSH
 ```
 127.0.0.1:6379>RPUSH num "6"
 127.0.0.1:6379>	LRANGE num 0 10
@@ -61,7 +61,7 @@ redis-server -v
 3)"2"
 4)"1"
 ```
-#### Length of the list using LLEN
+#### 4.Length of the list using LLEN
 ```
 127.0.0.1:6379>LLEN num
 (integer)5
@@ -72,7 +72,7 @@ redis-server -v
 4)"1"
 5)"6"
 ```
-#### Get value from specific index using LINDEX
+#### 5.Get value from specific index using LINDEX
 ```
 127.0.0.1:6379>	LRANGE num 0 10
 1)"4"
@@ -83,7 +83,7 @@ redis-server -v
 127.0.0.1:6379>LINDEX num 4
 "6"
 ```
-#### Insert value into middle using LSET
+#### 6.Insert value into middle using LSET
 ```
 127.0.0.1:6379>	LSET num 2 8
 ok
@@ -94,7 +94,7 @@ ok
 4)"1"
 5)"6"
 ```
-#### Show all the elements in the list
+#### 7.Show all the elements in the list
 ```
 127.0.0.1:6379>LRANGE num 0 -1
 1)"4"
@@ -103,7 +103,7 @@ ok
 4)"1"
 5)"6"
 ```
-#### LPUSHX if key exist then this command is successful
+#### 8.LPUSHX if key exist then this command is successful
 ```
 127.0.0.1:6379>LPUSHX num 7
 (integer)6
@@ -117,7 +117,7 @@ ok
 127.0.0.1:6379>LPUSHX sub 12345
 (integer)0
 ```
-#### PUSH value befor specific value
+#### 9.PUSH value befor specific value
 ```
 127.0.0.1.6379>LINSERT num before 1 251
 (integer)7
@@ -130,7 +130,7 @@ ok
 5)"1"
 7)"6"
 ```
-#### PUSH value after specific value
+#### 10.PUSH value after specific value
 ```
 127.0.0.1.6379>LINSERT num after 1 252
 (integer)7
@@ -146,7 +146,7 @@ ok
 ```
 # REDIS SETS
 
-#### ADD into set
+#### 1.ADD into set
 ```
 127.0.0.1.6379>SADD myset1 1234
 (integer)4
@@ -173,7 +173,7 @@ ok
 4)"4"
 5)"5"
 ```
-#### How many members in the set
+#### 2.How many members in the set
 ```
 127.0.0.1.6379>SCARD myset1
 (integer)5
@@ -184,7 +184,7 @@ ok
 4)"4"
 5)"5"
 ```
-#### 1.ADD new set
+#### 3.ADD new set
 ```
 127.0.0.1.6379>SADD myset2 10 11 12 13 14 
 (integer)5
@@ -215,7 +215,7 @@ ok
 8)"14"
 9)"15"
 ```
-#### 2.Substructure set from one set to another set (check difference)
+#### 4.Substructure set from one set to another set (check difference)
 ```
 127.0.0.1:6379>SMEMBERS myset1
 1)"1"
@@ -245,7 +245,7 @@ ok
 5)"14"
 6)"15"
 ```
-#### 3.If we want to know the SDIFF snd save it in the third set then..
+#### 5.If we want to know the SDIFF snd save it in the third set then..
 ```
 127.0.0.1:6379>SMEMBERS myset1
 1)"1"
@@ -288,7 +288,7 @@ ok
 5)"14"
 6)"15"
 ```
-#### 4.Union two set
+#### 6.Union two set
 ```
 127.0.0.1:6379>SUNION myset1 myset2
 1)"1"
@@ -303,7 +303,7 @@ ok
 10)"14"
 11)"15"
 ```
-#### 5.Store union set value in another set
+#### 7.Store union set value in another set
 ```
 127.0.0.1:6379>SUNIONSTORE myset5 myset1 myset2
 (integer)11
@@ -320,7 +320,7 @@ ok
 10)"14"
 11)"15"
 ```
-Remove members from the set
+#### 8.Remove members from the set
 ```
 127.0.0.1:6379>SMEMBERS myset5
 1)"1"
@@ -348,7 +348,7 @@ Remove members from the set
 9)"13"
 10)"14"
 ```
-#### 6.Remove random value from set
+#### 9.Remove random value from set
 ```
 127.0.0.1:6379>SMEMBERS myset5
 1)"1"
@@ -383,7 +383,7 @@ Remove members from the set
 8)"13"
 9)"14"
 ```
-#### 7.Insertion between two sets
+#### 10.Insertion between two sets
 ```
 127.0.0.1:6379>SMEMBERS set1
 1)"1"
@@ -406,7 +406,7 @@ Remove members from the set
 2)"2"
 3)"3"
 ```
-#### 8.Insertion value store another set
+#### 11.Insertion value store another set
 ```
 127.0.0.1:6379>SINSERT myset1 myset2
 1)"1"
@@ -419,7 +419,7 @@ Remove members from the set
 2)"2"
 3)"3"
 ```
-#### 9.SMOVE cmd used to move value from one set to another set
+#### 12.SMOVE cmd used to move value from one set to another set
 ```
 127.0.0.1:6379>SMEMBERS set1
 1)"1"
