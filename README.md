@@ -144,3 +144,311 @@ ok
 7)"252"
 8)"6"
 ```
+# REDIS SETS
+
+#### ADD into set
+```
+127.0.0.1.6379>SADD myset1 1234
+(integer)4
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+
+127.0.0.1.6379>SADD myset1 3//Set doesnot support duplicate key
+(integer)0
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+
+127.0.0.1.6379>SADD myset1 5
+(integer)1
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+```
+#### How many members in the set
+```
+127.0.0.1.6379>SCARD myset1
+(integer)5
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+```
+#### 1.ADD new set
+```
+127.0.0.1.6379>SADD myset2 10 11 12 13 14 
+(integer)5
+127.0.0.1.6379>SMEMBERS myset2
+1)"10"
+2)"11"
+3)"12"
+4)"13"
+5)"14"
+6)"15"
+127.0.0.1:6379>SADD my set2 15
+(integer)1
+1)"10"
+2)"11"
+3)"12"
+4)"13"
+5)"14"
+6)"15"
+127.0.0.1:6379>SADD myset2 1 2 3 
+127.0.0.1:6379>SMEMBERS myset2 
+1)"1"
+2)"2"
+3)"3"
+4)"10"
+5)"11"
+6)"12"
+7)"13"
+8)"14"
+9)"15"
+```
+#### 2.Substructure set from one set to another set (check difference)
+```
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+127.0.0.1:6379>SMEMBERS myset2
+(integer)1
+1)"1"
+2)"2"
+3)"3"
+4)"10"
+5)"11"
+6)"12"
+7)"13"
+8)"14"
+9)"15"
+127.0.0.1:6379>SDIFF myset1 myset2
+1)"4"
+2)"5"
+127.0.0.1:6379>SDIFF myset2 myset1
+1)"10"
+2)"11"
+3)"12"
+4)"13"
+5)"14"
+6)"15"
+```
+#### 3.If we want to know the SDIFF snd save it in the third set then..
+```
+127.0.0.1:6379>SMEMBERS myset1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+127.0.0.1:6379>SMEMBERS myset2
+1)"1"
+2)"2"
+3)"3"
+4)"10"
+5)"11"
+6)"12"
+7)"13"
+8)"14"
+9)"15"
+127.0.0.1:6379>SDIFF myset1 myset2
+1)"4"
+2)"5"
+127.0.0.1:6379>SDIFF myset2 myset1
+1)"10"
+2)"11"
+3)"12"
+4)"13"
+5)"14"
+6)"15"
+127.0.0.1:6379>SDIFFSTORE myset3 myset1 myset2
+(integer)2
+127.0.0.1:6379>SMEMBERS myset3
+1)"4"
+2)"5"
+127.0.0.1:6379>SDIFFSTORE myset4 myset2 myset1
+(integer)6
+127.0.0.1:6379>SMEMBERS myset3
+1)"10"
+2)"11"
+3)"12"
+4)"13"
+5)"14"
+6)"15"
+```
+#### 4.Union two set
+```
+127.0.0.1:6379>SUNION myset1 myset2
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+11)"15"
+```
+#### 5.Store union set value in another set
+```
+127.0.0.1:6379>SUNIONSTORE myset5 myset1 myset2
+(integer)11
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+11)"15"
+```
+Remove members from the set
+```
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+11)"15"
+127.0.0.1:6379>SREM myset5 15
+(integer)1
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+```
+#### 6.Remove random value from set
+```
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+127.0.0.1:6379>SPOP myset5 "5"
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"10"
+6)"11"
+7)"12"
+8)"13"
+9)"14"
+127.0.0.1:6379>SPOP myset5 3
+127.0.0.1:6379>SMEMBERS myset5
+1)"1"
+2)"2"
+4)"4"
+5)"10"
+6)"11"
+7)"12"
+8)"13"
+9)"14"
+```
+#### 7.Insertion between two sets
+```
+127.0.0.1:6379>SMEMBERS set1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+127.0.0.1:6379>SMEMBERS set2 
+1)"1"
+2)"2"
+3)"3"
+4)"10"
+5)"11"
+6)"12"
+7)"13"
+8)"14"
+9)"15"
+127.0.0.1:6379>SINSERT myset1 myset2
+1)"1"
+2)"2"
+3)"3"
+```
+#### 8.Insertion value store another set
+```
+127.0.0.1:6379>SINSERT myset1 myset2
+1)"1"
+2)"2"
+3)"3"
+127.0.0.1:6379>SINSERTSTORE myset6 myset1 myset2
+(integer)3
+127.0.0.1:6379>SMMBERS myset6
+1)"1"
+2)"2"
+3)"3"
+```
+#### 9.SMOVE cmd used to move value from one set to another set
+```
+127.0.0.1:6379>SMEMBERS set1
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+127.0.0.1:6379>SMEMBERS set2 
+1)"1"
+2)"2"
+3)"3"
+4)"10"
+5)"11"
+6)"12"
+7)"13"
+8)"14"
+9)"15"
+127.0.0.1:6379>SMOVE myset1 myset2 5
+(integer)1
+127.0.0.1:6379>SMEMBERS myset2
+1)"1"
+2)"2"
+3)"3"
+4)"4"
+5)"5"
+6)"10"
+7)"11"
+8)"12"
+9)"13"
+10)"14"
+11)"15"
+```
